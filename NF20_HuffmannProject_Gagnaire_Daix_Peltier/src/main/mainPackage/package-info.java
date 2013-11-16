@@ -6,4 +6,4 @@
  * @author JoeTheFuckingFrypan
  * @version 0.1
  */
-package mainPackage;
+package main.mainPackage;

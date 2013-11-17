@@ -8,11 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre
  * @author JoeTheFuckingFrypan
- * @version 0.2
+ * @version 0.2.1
  */
 
 public class FileReader {
@@ -31,7 +32,6 @@ public class FileReader {
 		this.url = url;
 		BufferedReader reader = openFileAt(url);
 		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
-
 		return frequencyByLetter;
 	}
 	
@@ -98,22 +98,40 @@ public class FileReader {
 	}
 
 	/**
-	 * Méthode de debug pour tester vérifier que le fichier soit ouvert avec succes
-	 * --Méthode qui sera donc supprimée
+	 * Méthode de debug pour avoir un rendu visuel sur le contenu du fichier lu
+	 * --Méthode qui sera donc supprimée (ou pas)
 	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
 	 * @author JoeTheFuckingFrypan
 	 */
-	@Deprecated
 	public void displayTest(String url) {
 		try {
 			BufferedReader reader = openFileAt(url);
 			String ligne;
+			System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
+			System.out.println("======= Displaying content from file =======");
 			while((ligne=reader.readLine())!=null) {
 				System.out.println(ligne);
 			}
+			
 		} catch (IOException e) {
 			throw new FileReaderException("Error while reading file at '" + url + "'", e);
 		}
 	}
 
+	/**
+	 * Méthode de debug pour obtenir un rendu visuel de la fréquence de chaque lettre composant le fichier analysé
+	 * --Méthode qui sera donc supprimée (ou pas)
+	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
+	 * @author JoeTheFuckingFrypan
+	 */
+	public void displayFrequencyResults(String url) {
+		Map<String,Integer> results = processLetterFrequencyFrom(url);
+		System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
+		System.out.println("======= Displaying frenquency from file =======");
+		for(Entry<String, Integer> entry : results.entrySet()) {
+			System.out.println("[" + entry.getKey() + "] has a frequency of : " + entry.getValue());
+		}
+		System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
+	}
+	
 }

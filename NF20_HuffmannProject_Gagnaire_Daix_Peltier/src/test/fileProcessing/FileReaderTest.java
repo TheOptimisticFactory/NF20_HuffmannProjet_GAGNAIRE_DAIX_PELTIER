@@ -1,7 +1,5 @@
 package test.fileProcessing;
 
-import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,9 +11,8 @@ import main.fileProcessing.FileReaderException;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -49,15 +46,12 @@ public class FileReaderTest {
 	}
 	
 	@Test(expected=FileReaderException.class)
-	public void testFailWhileOpeningile() throws Exception {
+	public void testFailWhileOpeningFile() throws Exception {
 		FileReader mockFileReader = PowerMockito.spy(new FileReader());
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		PowerMockito.doReturn(bufferedReader).when(mockFileReader,"openFileAt", anyString());
 		when(bufferedReader.readLine()).thenThrow(new IOException());
 		mockFileReader.processLetterFrequencyFrom("anyIncorrectFileAtAnyValidLocation");
-		
-		
-		System.out.println("Should be an error ^");
 	}
 	
 	@Test 

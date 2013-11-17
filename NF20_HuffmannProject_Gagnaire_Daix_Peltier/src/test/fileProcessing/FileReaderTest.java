@@ -12,11 +12,15 @@ import main.fileProcessing.FileReaderException;
 
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+
 import static org.mockito.Mockito.*;
+
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-//@RunWith(PowerMockRunner.class) //fait bugger pour une raison inconnue
+@RunWith(PowerMockRunner.class)
 @PrepareForTest(FileReader.class)
 public class FileReaderTest {
 	private FileReader reader;
@@ -44,22 +48,13 @@ public class FileReaderTest {
 		this.reader.processLetterFrequencyFrom(this.invalidURL);
 	}
 	
-	/*@Test(expected=FileReaderException.class)
-	public void testFailWhileOpeningile() throws Exception {
-		System.out.println("Should be an error ^");
-		FileReader mockFileReader = PowerMockito.spy(new FileReader());
-		PowerMockito.doThrow(new IOException()).when(mockFileReader,"openFileAt", "test");
-		mockFileReader.processLetterFrequencyFrom("test");
-		System.out.println("Should be an error ^");
-	}*/
-	
 	@Test(expected=FileReaderException.class)
 	public void testFailWhileOpeningile() throws Exception {
 		FileReader mockFileReader = PowerMockito.spy(new FileReader());
 		BufferedReader bufferedReader = mock(BufferedReader.class);
 		PowerMockito.doReturn(bufferedReader).when(mockFileReader,"openFileAt", anyString());
 		when(bufferedReader.readLine()).thenThrow(new IOException());
-		mockFileReader.processLetterFrequencyFrom("test");
+		mockFileReader.processLetterFrequencyFrom("anyIncorrectFileAtAnyValidLocation");
 		
 		
 		System.out.println("Should be an error ^");

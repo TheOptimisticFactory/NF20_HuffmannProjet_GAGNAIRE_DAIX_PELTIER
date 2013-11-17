@@ -29,7 +29,6 @@ public class FileReader {
 	 */
 	public Map<String,Integer> processLetterFrequencyFrom(String url) {
 		this.url = url;
-		System.out.println(this.url);
 		BufferedReader reader = openFileAt(url);
 		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
 
@@ -44,7 +43,6 @@ public class FileReader {
 	 * @author JoeTheFuckingFrypan
 	 */
 	private BufferedReader openFileAt(String url) throws FileReaderException {
-		System.out.println(this.url);
 		try {
 			InputStream ips = new FileInputStream(url);
 			InputStreamReader ipsr = new InputStreamReader(ips);
@@ -88,7 +86,6 @@ public class FileReader {
 	}
 	
 	private void processAllLettersFromLine(String lineToProcess, Map<String, Integer> frequencyByLetter) {
-		System.out.println(lineToProcess);
 		for(char letter: lineToProcess.toCharArray()) {
 			String expectedKey = String.valueOf(letter);
 			if(frequencyByLetter.containsKey(expectedKey)) {

@@ -17,6 +17,5 @@ public class FileReaderException extends RuntimeException {
     /*============ PROPAGATION d'une exception AVEC message ============*/
     public FileReaderException(String string, Exception e) {
     	super(string, e);
-    	System.out.println("[ERROR] " + string);
     }
 }

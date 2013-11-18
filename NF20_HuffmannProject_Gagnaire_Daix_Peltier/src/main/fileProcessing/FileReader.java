@@ -6,14 +6,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import main.HuffmanProcessing.Sorter;
 
 /**
- * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre
+ * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre, ordonné selon ce nombre (ordre croissant)
  * @author JoeTheFuckingFrypan
- * @version 0.2.1
+ * @version 0.3.0
  */
 
 public class FileReader {
@@ -60,7 +62,7 @@ public class FileReader {
 	 * @author JoeTheFuckingFrypan
 	 */
 	private Map<String, Integer> processEntireFileCountingFrequency(BufferedReader reader) throws FileReaderException {
-		Map<String,Integer> frequencyByLetter = new HashMap<String,Integer>();
+		Map<String,Integer> frequencyByLetter = new TreeMap<String,Integer>();
 
 		try {
 			String lineToProcess;
@@ -85,6 +87,12 @@ public class FileReader {
 		return lineToProcess.toLowerCase();
 	}
 	
+	
+	/**
+	 * Méthode privée permettant de récuperer la fréquence de toutes les lettres d'une ligne
+	 * @param lineToProcess String contenant la ligne à analyser
+	 * @param frequencyByLetter Map<String,Integer> à remplir ou dont les fréquences sont à incrémenter
+	 */
 	private void processAllLettersFromLine(String lineToProcess, Map<String, Integer> frequencyByLetter) {
 		for(char letter: lineToProcess.toCharArray()) {
 			String expectedKey = String.valueOf(letter);
@@ -99,7 +107,7 @@ public class FileReader {
 
 	/**
 	 * Méthode de debug pour avoir un rendu visuel sur le contenu du fichier lu
-	 * --Méthode qui sera donc supprimée (ou pas)
+	 * /!\ Méthode qui sera donc supprimée /!\
 	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
 	 * @author JoeTheFuckingFrypan
 	 */
@@ -112,26 +120,8 @@ public class FileReader {
 			while((ligne=reader.readLine())!=null) {
 				System.out.println(ligne);
 			}
-			
 		} catch (IOException e) {
 			throw new FileReaderException("Error while reading file at '" + url + "'", e);
 		}
 	}
-
-	/**
-	 * Méthode de debug pour obtenir un rendu visuel de la fréquence de chaque lettre composant le fichier analysé
-	 * --Méthode qui sera donc supprimée (ou pas)
-	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
-	 * @author JoeTheFuckingFrypan
-	 */
-	public void displayFrequencyResults(String url) {
-		Map<String,Integer> results = processLetterFrequencyFrom(url);
-		System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
-		System.out.println("======= Displaying frenquency from file =======");
-		for(Entry<String, Integer> entry : results.entrySet()) {
-			System.out.println("[" + entry.getKey() + "] has a frequency of : " + entry.getValue());
-		}
-		System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
-	}
-	
 }

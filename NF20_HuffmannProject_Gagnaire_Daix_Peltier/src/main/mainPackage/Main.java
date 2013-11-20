@@ -1,10 +1,10 @@
 package main.mainPackage;
 
-import java.util.Map;
+import java.io.PrintStream;
 
 import main.HuffmanProcessing.Displayer;
-import main.HuffmanProcessing.HuffmannBean;
-import main.HuffmanProcessing.HuffmannEncoder;
+import main.HuffmanProcessing.HuffmanBean;
+import main.HuffmanProcessing.HuffmanEncoder;
 import main.fileProcessing.FileReader;
 
 /**
@@ -14,23 +14,32 @@ import main.fileProcessing.FileReader;
  */
 
 public class Main {
-
+	
+	@SuppressWarnings("unused") //temporaire
 	public static void main (String[] args) {
 		FileReader reader = new FileReader();
 		Displayer display = new Displayer();
+		PrintStream output = System.out;
+		
 		String url1 = "src/main/ressources/file.txt";
 		String url2 = "src/main/ressources/ex1.txt";
 		String url3 = "src/main/ressources/ex2.txt";
 		
+		display.insertHeader(output,"Affichage du contenu du fichier");
+		reader.displayTest(output,url2);
+		display.insertBlankLine(output);
 		
-		reader.displayTest(url2); //Décommenter pour afficher le contenu du fichier dans la console
-		display.displayFrequencyResultsFrom(reader.processLetterFrequencyFrom(url2));
-		display.displayFrequencyResultsAsListFrom(reader.processLetterFrequencyFrom(url2));
-	
-		Map<String, Integer> res = reader.processLetterFrequencyFrom(url2);
-		HuffmannEncoder encoder = new HuffmannEncoder(res);
+		display.insertHeader(output,"Affichage des éléments avant encodage");
+		HuffmanBean res = reader.processLetterFrequencyFrom(url2);
+		res.displayTree(output);
+		display.insertBlankLine(output);
 		
-		encoder.encodeWithDebugInfo();
+		display.insertHeader(output,"Encodage des éléments");
+		HuffmanEncoder encoder = new HuffmanEncoder();
+		encoder.encodeWithDebugInfo(res);
 		
+		display.insertBlankLine(output);
+		display.insertHeader(output,"Poids de chacune des lettres");
+		res.displayNodeWeight(output);
 	}
 }

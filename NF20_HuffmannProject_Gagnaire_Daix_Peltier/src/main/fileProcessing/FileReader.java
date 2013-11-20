@@ -6,11 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import main.HuffmanProcessing.Sorter;
+import main.HuffmanProcessing.HuffmanBean;
 
 /**
  * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre, ordonné selon ce nombre (ordre croissant)
@@ -27,14 +27,14 @@ public class FileReader {
 	/**
 	 * Méthode permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
 	 * @param url URL du fichier désiré
-	 * @return Une MAP<String,Integer>, chaque String correspond à une lettre, et chaque Integer associé à sa fréquence
+	 * @return HuffmannBean : Ensemble trié de noeuds associant : une String correspondant à une lettre, et un Integer (sa fréquence)
 	 * @author JoeTheFuckingFrypan
 	 */
-	public Map<String,Integer> processLetterFrequencyFrom(String url) {
+	public HuffmanBean processLetterFrequencyFrom(String url) {
 		this.url = url;
 		BufferedReader reader = openFileAt(url);
 		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
-		return frequencyByLetter;
+		return new HuffmanBean(frequencyByLetter);
 	}
 	
 	/**
@@ -61,9 +61,8 @@ public class FileReader {
 	 * @throws FileReaderException Exception avec message indiquant qu'une erreur s'est produite lors de la lecture du fichier
 	 * @author JoeTheFuckingFrypan
 	 */
-	private Map<String, Integer> processEntireFileCountingFrequency(BufferedReader reader) throws FileReaderException {
+	private Map<String,Integer> processEntireFileCountingFrequency(BufferedReader reader) throws FileReaderException {
 		Map<String,Integer> frequencyByLetter = new TreeMap<String,Integer>();
-
 		try {
 			String lineToProcess;
 			while((lineToProcess=reader.readLine())!=null) {
@@ -93,7 +92,7 @@ public class FileReader {
 	 * @param lineToProcess String contenant la ligne à analyser
 	 * @param frequencyByLetter Map<String,Integer> à remplir ou dont les fréquences sont à incrémenter
 	 */
-	private void processAllLettersFromLine(String lineToProcess, Map<String, Integer> frequencyByLetter) {
+	private void processAllLettersFromLine(String lineToProcess, Map<String, Integer> frequencyByLetter) {	
 		for(char letter: lineToProcess.toCharArray()) {
 			String expectedKey = String.valueOf(letter);
 			if(frequencyByLetter.containsKey(expectedKey)) {
@@ -110,15 +109,14 @@ public class FileReader {
 	 * /!\ Méthode qui sera donc supprimée /!\
 	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
 	 * @author JoeTheFuckingFrypan
+	 * @param stream Flux de sortie sur lequel afficher les informations 
 	 */
-	public void displayTest(String url) {
+	public void displayTest(PrintStream stream, String url) {
 		try {
 			BufferedReader reader = openFileAt(url);
 			String ligne;
-			System.out.println(""); //Ligne vide supplémentaire pour plus de clarté dans la console
-			System.out.println("======= Displaying content from file =======");
 			while((ligne=reader.readLine())!=null) {
-				System.out.println(ligne);
+				stream.println(ligne);
 			}
 		} catch (IOException e) {
 			throw new FileReaderException("Error while reading file at '" + url + "'", e);

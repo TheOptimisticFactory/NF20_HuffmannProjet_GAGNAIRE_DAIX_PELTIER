@@ -3,8 +3,11 @@ package test.fileProcessing;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import main.HuffmanProcessing.HuffmanBean;
+import main.HuffmanProcessing.Node;
 import main.fileProcessing.FileReader;
 import main.fileProcessing.FileReaderException;
 
@@ -24,6 +27,7 @@ public class FileReaderTest {
 	private String validURL;
 	private String invalidURL;
 	private Map<String,Integer> expectedResultsFromTestFile;
+	private HuffmanBean expectedResultBeanFromTestFile;
 
 	@Before
 	public void setup() throws Exception {
@@ -38,6 +42,7 @@ public class FileReaderTest {
 		this.expectedResultsFromTestFile.put("d", 2);
 		this.expectedResultsFromTestFile.put("e", 1);
 		this.expectedResultsFromTestFile.put("f", 3);
+		this.expectedResultBeanFromTestFile = new HuffmanBean(expectedResultsFromTestFile);
 	}
 	
 	@Test(expected=FileReaderException.class)
@@ -61,28 +66,21 @@ public class FileReaderTest {
 	
 	@Test 
 	public void testResultsFromProcessLetterFrequency() {
-		Map<String, Integer> results = this.reader.processLetterFrequencyFrom(this.validURL);
-		String key = "a";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
-		key = "b";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
-		key = "c";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
-		key = "d";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
-		key = "e";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
-		key = "f";
-		assertEquals(this.expectedResultsFromTestFile.get(key), results.get(key));
-		displayValuesForKeyFrom(key,results);
+		HuffmanBean results = this.reader.processLetterFrequencyFrom(this.validURL);
+		assertEquals(this.expectedResultBeanFromTestFile.size(), results.size());
+		Iterator<Node> iterator = results.getIterator();
+		Iterator<Node> iteratorFromExpectedResults = expectedResultBeanFromTestFile.getIterator();
+		while(iteratorFromExpectedResults.hasNext()) {
+			assertTrue(iterator.hasNext());
+			Node currentNode = iterator.next();
+			Node expectedNode = iteratorFromExpectedResults.next();	
+			assertEquals(expectedNode.getLetter(),currentNode.getLetter());
+			assertEquals(expectedNode.getFrequency(),currentNode.getFrequency());
+			displayValuesForKeyFrom(currentNode.getLetter(),currentNode.getFrequency());
+		}
 	}
 	
-	private void displayValuesForKeyFrom(String key, Map<String,Integer> currentResuls) {
-		System.out.println("From processed results, for the key [" + key + "], frequency is : " + currentResuls.get(key));
+	private void displayValuesForKeyFrom(String key,Integer frequency) {
+		System.out.println("From processed results, for the key [" + key + "], frequency is : " + frequency);
 	}
 }

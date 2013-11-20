@@ -1,11 +1,21 @@
 package main.HuffmanProcessing;
 
+import java.io.PrintStream;
+
+/**
+ * Classe correspondant à un noeud dans l'arbre de Huffman (chaque noeud peut contenir une lettre, une fréquence et un poids, ou simplement 1 à 2 sous-noeuds)
+ * @author JoeTheFuckingFrypan
+ * @version 0.2.0
+ */
+
 public class Node implements Comparable<Node>{
-	private String letter;
-	private Integer frequency;
 	private Node leftNode;
 	private Node rightNode;
-	
+	private Integer frequency;
+	private final String letter;
+	private final Boolean isFinalLeaf;
+	private String weight;
+
 	/**
 	 * Constructeur d'un noeud correspondant à une lettre (avec fréquence, avec lettre, et sans sous-noeuds)
 	 * @param letter
@@ -16,8 +26,10 @@ public class Node implements Comparable<Node>{
 		this.frequency = frequency;
 		this.leftNode = null;
 		this.rightNode = null;
+		this.isFinalLeaf = true;
+
 	}
-	
+
 	/**
 	 * Constructeur d'un noeud père correspondant à une lettre (avec fréquence, avec lettre, et sans sous-noeuds)
 	 * @param letter
@@ -30,35 +42,75 @@ public class Node implements Comparable<Node>{
 		this.frequency = frequency;
 		this.leftNode = leftNode;
 		this.rightNode = rigthNode;
+		this.isFinalLeaf = false;
 	}
-	
+
 	/**
-	 * Méthode permettant d'afficher les données d'un noeud, et ceux des sous-noeuds associés (s'ils existent)
-	 * @param depth Numéro correspondant à la profondeur dans l'arbre (0 étant la racine)
+	 * Méthode permettant d'incrémenter la fréquence de la lettre associée
 	 */
-	public void displayNodeInfoWithDepth(int depth) {
-		System.out.print("[" + getLetter() + "] : " + getFrequency());
+	public void increaseFrequency() {
+		++this.frequency;
+	}
+
+	/**
+	 * Méthode permettant d'assigner à chaque lettre son poids selon l'encodage de Huffman
+	 * @param weight String contenant le poids à assigner
+	 * @author JoeTheFuckingFrypan
+	 */
+	public void assignWeightToLetter(String weight) {
+		if(isFinalLeaf) {
+			this.weight = weight;
+		}
 		if(hasLeftChild()) {
-			System.out.println();
-			for(int i=0; i<=depth; i++) {
-				System.out.print("--");
-			}
-			System.out.print("[LEFT] ");
-			this.leftNode.displayNodeInfoWithDepth(depth+1);
+			leftNode.assignWeightToLetter(weight+"0");
 		}
 		if(hasRightChild()) {
-			System.out.println();
-			for(int i=0; i<=depth; i++) {
-				System.out.print("--");
-			}
-			System.out.print("[RIGHT] ");
-			this.rightNode.displayNodeInfoWithDepth(depth+1);
+			rightNode.assignWeightToLetter(weight+"1");
 		}
 	}
-	
+
+	/**
+	 * Méthode permettant d'afficher les données d'un noeud, et ceux des sous-noeuds associés (s'ils existent)
+	 * @param stream Flux de sortie sur lequel afficher le message
+	 * @param depth Numéro correspondant à la profondeur dans l'arbre (0 étant la racine)
+	 * @author JoeTheFuckingFrypan
+	 */
+	public void displayNodeInfoWithDepth(PrintStream stream, int depth) {
+		stream.print("[" + getLetter() + "] : " + getFrequency());
+		if(hasLeftChild()) {
+			stream.println();
+			for(int i=0; i<=depth; i++) {
+				stream.print("--");
+			}
+			stream.print("[LEFT] ");
+			this.leftNode.displayNodeInfoWithDepth(stream,depth+1);
+		}
+		if(hasRightChild()) {
+			stream.println();
+			for(int i=0; i<=depth; i++) {
+				stream.print("--");
+			}
+			stream.print("[RIGHT] ");
+			this.rightNode.displayNodeInfoWithDepth(stream,depth+1);
+		}
+	}
+
+	public void displayWeight(PrintStream stream) {
+		if(isFinalLeaf) {
+			stream.println("Letter [" + getLetter() + "] weights : " + getWeight());
+		}
+		if(hasLeftChild()) {
+			this.leftNode.displayWeight(stream);
+		}
+		if(hasRightChild()) {
+			this.rightNode.displayWeight(stream);
+		}
+	}
+
 	/**
 	 * Méthode permettant de récuperer la lettre associée au noeud
 	 * @return La lettre associée au noeud
+	 * @author JoeTheFuckingFrypan
 	 */
 	public String getLetter() {
 		return letter;
@@ -67,22 +119,34 @@ public class Node implements Comparable<Node>{
 	/**
 	 * Méthode permettant de récuperer la fréquence de la lettre associée au noeud
 	 * @return La fréquence de la lettre associée au noeud
+	 * @author JoeTheFuckingFrypan
 	 */
 	public Integer getFrequency() {
 		return frequency;
+	}
+
+	/**
+	 * Méthode permettant de récuperer l'encodage de Huffman pour cette lettre
+	 * @return String contenant l'encodage de Huffmann associé
+	 * @author JoeTheFuckingFrypan
+	 */
+	public String getWeight() {
+		return this.weight;
 	}
 	
 	/**
 	 * Méthode permettant de savoir si le noeud a un fils à gauche
 	 * @return true si le noeud a un fils à gauche, false sinon
+	 * @author JoeTheFuckingFrypan
 	 */
 	public Boolean hasLeftChild() {
 		return this.leftNode != null;
 	}
-	
+
 	/**
 	 * Méthode permettant de savoir si le noeud a un fils à droite
 	 * @return true si le noeud a un fils à droite, false sinon
+	 * @author JoeTheFuckingFrypan
 	 */
 	public Boolean hasRightChild() {
 		return this.rightNode != null;
@@ -91,6 +155,7 @@ public class Node implements Comparable<Node>{
 	/**
 	 * Méthode redéfinissant la façon dont sont comparés les noeuds
 	 * Trie d'abord sur la fréquence, et en cas d'égalité trie sur la lettre
+	 * @author JoeTheFuckingFrypan
 	 */
 	@Override
 	public int compareTo(Node other) {

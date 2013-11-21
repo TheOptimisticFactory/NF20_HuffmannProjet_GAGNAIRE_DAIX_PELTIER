@@ -1,18 +1,20 @@
-NF20_HuffmannProjet_GAGNAIRE_DAIX_PELTIER
-=====================================
+NF20 Huffman Project
+================
 
-Auteurs
+Auteurs :
 * David PELTIER
 * Guillaume DAIX
 * Romain GAGNAIRE
 
 =====================================
 
-Avant-propos:
+Avant-propos :
 * Pour fonctionner le projet necessite l'installation de plugins au sein d'Eclipse.
 * Le nombre de plugins à installer varie en fonction de la version d'Eclipse installée
 * Pour connaitre la version d'Eclipse, il suffit de cliquer sur "Help" puis sur "About Eclipse".
 * Pour installer un plugin dans Eclipse, il suffit de cliquer sur "Help" puis sur "Eclipse Marketplace" et taper dans find le nom associé.
+
+=====================================
 
 Pour la version "Eclipse Java EE IDE for Web Developers" 
 * Aucun
@@ -27,3 +29,6 @@ Il permet juste de constater de la couverture des tests unitaires (dans une cert
 =====================================
 
 Version du projet : 0.3.0
+
+=====================================
+

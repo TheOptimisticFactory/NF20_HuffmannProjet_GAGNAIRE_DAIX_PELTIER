@@ -8,8 +8,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Classe correspondant à l'arborescence de l'arbre de Huffman (ensemble ordonnée de noeuds) 
- * @author JoeTheFuckingFrypan
+ * Classe correspondant à l'arborescence de l'arbre de Huffman (ensemble ordonnée de noeuds)
  * @version 0.2.0
  */
 public class HuffmanBean {
@@ -18,7 +17,6 @@ public class HuffmanBean {
 	/**
 	 * Constructeur, prend une MAP<String, Integer> et la transforme en une arborescence de noeuds 
 	 * @param originalValues : Map<String, Integer> contenant toutes les lettres et leurs fréquences associées
-	 * @author JoeTheFuckingFrypan
 	 */
 	public HuffmanBean(Map<String, Integer> originalValues) {
 		this.tree = new TreeSet<Node>();
@@ -78,8 +76,8 @@ public class HuffmanBean {
 			Integer mergedFrequency = frequencyOne + frequencyTwo;
 
 			insertNewNodeWithLeaves(mergedLetters, mergedFrequency, lowestEntry, nextLowestEntry);
-			System.out.println("");
-			System.out.println("[MERGING] " + letterOne + "(" + frequencyOne + ")" + " AND " + letterTwo + "(" + frequencyTwo + ")" + " => " + mergedLetters + "(" + mergedFrequency + ")"); 
+			//System.out.println("");
+			//System.out.println("[MERGING] " + letterOne + "(" + frequencyOne + ")" + " AND " + letterTwo + "(" + frequencyTwo + ")" + " => " + mergedLetters + "(" + mergedFrequency + ")"); 
 		}
 	}
 
@@ -109,7 +107,6 @@ public class HuffmanBean {
 	/**
 	 * Méthode permettant d'avoir une représentation visuelle de l'arbre de Huffman
 	 * @param stream Flux de sortie où afficher l'arbre
-	 * @author JoeTheFuckingFrypan
 	 */
 	public void displayTree(PrintStream stream) {
 		for(Node node : this.tree) {
@@ -121,7 +118,6 @@ public class HuffmanBean {
 	/**
 	 * Méthode permettant d'afficher le poids (l'encodage) de chacune des lettres de l'arbre
 	 * @param stream Flux de sortie où afficher les résultats
-	 * @author JoeTheFuckingFrypan
 	 */
 	public void displayNodeWeight(PrintStream stream) {
 		for(Node node : this.tree) {
@@ -133,7 +129,6 @@ public class HuffmanBean {
 	/**
 	 * Méthode permettant de récuperer le nombre de noeuds de l'arbre
 	 * @return int correspondant au nombre de noeuds
-	 * @author JoeTheFuckingFrypan
 	 */
 	public int size() {
 		return this.tree.size();
@@ -142,7 +137,6 @@ public class HuffmanBean {
 	/**
 	 * Méthode permettant de récupérer un iterateur sur l'ensemble de noeuds
 	 * @return iterateur permettant d'iterer sur la collection
-	 * @author JoeTheFuckingFrypan
 	 */
 	public Iterator<Node> getIterator() {
 		return this.tree.iterator();

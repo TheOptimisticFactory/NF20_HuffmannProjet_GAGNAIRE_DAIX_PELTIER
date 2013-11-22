@@ -4,14 +4,13 @@ import java.io.PrintStream;
 
 /**
  * Classe permettant de faire différents types d'affichage
- * @author JoeTheFuckingFrypan
  * @version 0.2.0
  */
 
 public class Displayer {
 	/**
 	 * Méthode affichant une ligne vide dans la console
-	 * @author JoeTheFuckingFrypan
+	
 	 * @param stream Flux de sortie à utiliser
 	 */
 	public void insertBlankLine(PrintStream stream) {

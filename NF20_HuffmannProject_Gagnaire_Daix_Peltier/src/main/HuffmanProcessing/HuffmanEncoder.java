@@ -3,7 +3,6 @@ package main.HuffmanProcessing;
 /**
  * Classe permettant d'obtenir l'arbre de Huffman final (avec attribution des poids correspondant à chaque lettre) à partir d'une arborescence initiale (HuffmanBean)
  * @version 0.2.0
- * @author JoeTheFuckingFrypan
  */
 public class HuffmanEncoder {
 	public HuffmanEncoder() {

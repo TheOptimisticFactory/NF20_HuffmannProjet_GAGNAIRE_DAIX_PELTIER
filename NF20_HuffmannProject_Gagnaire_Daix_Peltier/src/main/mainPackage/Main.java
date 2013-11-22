@@ -9,7 +9,6 @@ import main.fileProcessing.FileReader;
 
 /**
  * Classe contenant le point d'entrée du programme
- * @author JoeTheFuckingFrypan
  * @version 0.1.3
  */
 
@@ -26,20 +25,25 @@ public class Main {
 		String url3 = "src/main/ressources/ex2.txt";
 		
 		display.insertHeader(output,"Affichage du contenu du fichier");
-		reader.displayTest(output,url2);
+		reader.displayTest(output,url3);
 		display.insertBlankLine(output);
 		
 		display.insertHeader(output,"Affichage des éléments avant encodage");
-		HuffmanBean res = reader.processLetterFrequencyFrom(url2);
-		res.displayTree(output);
-		display.insertBlankLine(output);
 		
-		display.insertHeader(output,"Encodage des éléments");
+		long start = System.nanoTime();
+		
+		HuffmanBean res = reader.processLetterFrequencyFrom(url3);
+		//res.displayTree(output);
+		//display.insertBlankLine(output);
+		
+		//display.insertHeader(output,"Encodage des éléments");
 		HuffmanEncoder encoder = new HuffmanEncoder();
-		encoder.encodeWithDebugInfo(res);
+		//encoder.encodeWithDebugInfo(res);
+		encoder.encode(res);
+		System.out.println("Duration = " + ((System.nanoTime() - start)/1000000000.0) + "secondes");
 		
-		display.insertBlankLine(output);
-		display.insertHeader(output,"Poids de chacune des lettres");
-		res.displayNodeWeight(output);
+		//display.insertBlankLine(output);
+		//display.insertHeader(output,"Poids de chacune des lettres");
+		//res.displayNodeWeight(output);
 	}
 }

@@ -14,7 +14,6 @@ import main.HuffmanProcessing.HuffmanBean;
 
 /**
  * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre, ordonné selon ce nombre (ordre croissant)
- * @author JoeTheFuckingFrypan
  * @version 0.3.0
  */
 
@@ -28,7 +27,7 @@ public class FileReader {
 	 * Méthode permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
 	 * @param url URL du fichier désiré
 	 * @return HuffmannBean : Ensemble trié de noeuds associant : une String correspondant à une lettre, et un Integer (sa fréquence)
-	 * @author JoeTheFuckingFrypan
+
 	 */
 	public HuffmanBean processLetterFrequencyFrom(String url) {
 		this.url = url;
@@ -36,13 +35,13 @@ public class FileReader {
 		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
 		return new HuffmanBean(frequencyByLetter);
 	}
-	
+
 	/**
 	 * Méthode permettant de récupérer un flux lisible à partir de l'URL d'un fichier (gestion des erreurs)
 	 * @param url String contenant l'URL du fichier souhaité
 	 * @return BufferedReader : Flux lisible ligne à ligne
 	 * @throws FileReaderException : Exception indiquant avec un message qu'une erreur s'est produite lors de l'ouverture du fichier
-	 * @author JoeTheFuckingFrypan
+
 	 */
 	private BufferedReader openFileAt(String url) throws FileReaderException {
 		try {
@@ -59,7 +58,7 @@ public class FileReader {
 	 * @param reader BufferedReader correspondant au flux de données provenant du fichier précédement ouvert
 	 * @return Une MAP<String,Integer>, chaque String correspond à une lettre, et chaque Integer associé à sa fréquence
 	 * @throws FileReaderException Exception avec message indiquant qu'une erreur s'est produite lors de la lecture du fichier
-	 * @author JoeTheFuckingFrypan
+
 	 */
 	private Map<String,Integer> processEntireFileCountingFrequency(BufferedReader reader) throws FileReaderException {
 		Map<String,Integer> frequencyByLetter = new TreeMap<String,Integer>();
@@ -79,14 +78,14 @@ public class FileReader {
 	 * Méthode permettant de normaliser la String reçue (enlève tous les espaces et met toutes les lettres en minuscule)
 	 * @param lineToProcess String d'origine contenant éventuellement des caractères à normaliser
 	 * @return renvoie une String sans espaces et sans majuscules
-	 * @author JoeTheFuckingFrypan
+
 	 */
 	private String normalizeLine(String lineToProcess) {
-		lineToProcess = lineToProcess.replaceAll("\\s+", ""); 
+		//lineToProcess = lineToProcess.replaceAll("\\s+", ""); 
 		return lineToProcess.toLowerCase();
 	}
-	
-	
+
+
 	/**
 	 * Méthode privée permettant de récuperer la fréquence de toutes les lettres d'une ligne
 	 * @param lineToProcess String contenant la ligne à analyser
@@ -108,7 +107,6 @@ public class FileReader {
 	 * Méthode de debug pour avoir un rendu visuel sur le contenu du fichier lu
 	 * /!\ Méthode qui sera donc supprimée /!\
 	 * @param url : String contenant l'url (chemin relatif) du fichier à ouvrir
-	 * @author JoeTheFuckingFrypan
 	 * @param stream Flux de sortie sur lequel afficher les informations 
 	 */
 	public void displayTest(PrintStream stream, String url) {

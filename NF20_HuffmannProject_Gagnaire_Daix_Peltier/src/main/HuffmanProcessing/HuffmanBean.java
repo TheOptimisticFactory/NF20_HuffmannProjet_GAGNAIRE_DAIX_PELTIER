@@ -26,6 +26,20 @@ public class HuffmanBean {
 	}
 	
 	/**
+	 * Constructeur, prend un tableau d'entier, et la transforme en une arborescence de noeuds
+	 * @param originalValues : La clé => Valeur de l'octet, la taille, sa fréquence. Le tableau fait forcement 256 de taille.
+	 */
+	public HuffmanBean(int[] originalValues){
+		this.tree = new TreeSet<Node>();
+		for(int i =0; i < 65536; i++)
+		{
+			if(originalValues[i]!=0)
+			this.tree.add(new Node(""+((char)i), originalValues[i]));
+		}
+	}
+	
+	
+	/**
 	 * Méthode permettant de vérifier si l'algorithme est terminé
 	 * @return true s'il reste plus de 2 noeuds ou false, s'il n'en reste plus qu'un
 	 */

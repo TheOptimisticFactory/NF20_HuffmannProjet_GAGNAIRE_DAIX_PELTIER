@@ -32,8 +32,36 @@ public class FileReader {
 	public HuffmanBean processLetterFrequencyFrom(String url) {
 		this.url = url;
 		BufferedReader reader = openFileAt(url);
-		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
-		return new HuffmanBean(frequencyByLetter);
+		if(false){//Methode romain, très bien écrite mais pas très rapide :
+			Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
+			return new HuffmanBean(frequencyByLetter);
+		}
+		else
+		{//Méthode Daix, pas très bien écrite, mais très rapide :
+			String lineToProcess;
+			int tab[] = new int[65536];
+			for(int i = 0; i < 65536; i++)
+				tab[i] = 0;
+			
+			try {
+				while((lineToProcess=reader.readLine())!=null) {
+					lineToProcess = normalizeLine(lineToProcess);// <= Je l'ai gardé, mais je trouve ça inutile !
+					//Je t'en parle en cours pourquoi... Mais c'est toujours l'histoire des octets.
+					//Et même pire, si tu dis que A = a, Ok, tu gagne en place, mais tu corrompts le fichier.
+					//Tu perds des informations, tu gagne en compression, mais avec pertes.
+					//Moi je serais pour, ne plus travailler avec des caractères mais des octets.
+					//Moins de galère, le fichier reste le même, et on peut traiter des fichiers txt comme des mp3
+					//Sans problème !
+					for(char letter: lineToProcess.toCharArray()) {
+						tab[(int)letter]++;
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new HuffmanBean(tab);
+		}
 	}
 
 	/**

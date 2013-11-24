@@ -14,53 +14,56 @@ import main.HuffmanProcessing.HuffmanBean;
 
 /**
  * Classe permettant de lire un fichier et de retourner le nombre d'occurences de chaque lettre, ordonné selon ce nombre (ordre croissant)
- * @version 0.3.0
+ * @version 0.4.0
  */
 
 public class FileReader {
 	private String url;
 
-	public FileReader() {
-	}
-
 	/**
-	 * Méthode permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
+	 * Méthode optimisée permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
 	 * @param url URL du fichier désiré
 	 * @return HuffmannBean : Ensemble trié de noeuds associant : une String correspondant à une lettre, et un Integer (sa fréquence)
-
+	 * @version 2.0 AKA "Methode Daix"
 	 */
 	public HuffmanBean processLetterFrequencyFrom(String url) {
 		this.url = url;
 		BufferedReader reader = openFileAt(url);
-		if(false){//Methode romain, très bien écrite mais pas très rapide :
-			Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
-			return new HuffmanBean(frequencyByLetter);
+		int tab[] = initializeArray(65536);
+		processEntireFileCountingFrequency(tab,reader);
+		return new HuffmanBean(tab);
+	}
+
+	/**
+	 * Méthode permettant de créer un tableau de n cases, toutes initialisées à zéro
+	 * @param size Taille du tableau
+	 * @return Le tableau complet, avec toutes les cases initialisées
+	 */
+	private int[] initializeArray(int size) {
+		int tab[] = new int[size];
+		for(int i = 0; i < size; i++) {
+			tab[i] = 0;
 		}
-		else
-		{//Méthode Daix, pas très bien écrite, mais très rapide :
+		return tab;
+	}
+	
+	/**
+	 * Méthode permettant de récuperer les fréquences de chaque caractère à partir du flux de données dans un tableau associé
+	 * @param reader BufferedReader correspondant au flux de données provenant du fichier précédement ouvert
+	 * @return Un tableau, chaque String correspond à une lettre, et chaque Integer associé à sa fréquence
+	 * @throws FileReaderException Exception avec message indiquant qu'une erreur s'est produite lors de la lecture du fichier
+	 * @version 2.0 AKA "Methode Daix"
+	 */
+	private void processEntireFileCountingFrequency(int[] tab, BufferedReader reader) {
+		try {
 			String lineToProcess;
-			int tab[] = new int[65536];
-			for(int i = 0; i < 65536; i++)
-				tab[i] = 0;
-			
-			try {
-				while((lineToProcess=reader.readLine())!=null) {
-					lineToProcess = normalizeLine(lineToProcess);// <= Je l'ai gardé, mais je trouve ça inutile !
-					//Je t'en parle en cours pourquoi... Mais c'est toujours l'histoire des octets.
-					//Et même pire, si tu dis que A = a, Ok, tu gagne en place, mais tu corrompts le fichier.
-					//Tu perds des informations, tu gagne en compression, mais avec pertes.
-					//Moi je serais pour, ne plus travailler avec des caractères mais des octets.
-					//Moins de galère, le fichier reste le même, et on peut traiter des fichiers txt comme des mp3
-					//Sans problème !
-					for(char letter: lineToProcess.toCharArray()) {
-						tab[(int)letter]++;
-					}
+			while((lineToProcess=reader.readLine())!=null) {
+				for(char letter: lineToProcess.toCharArray()) {
+					tab[(int)letter]++;
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return new HuffmanBean(tab);
+		} catch (IOException e) {
+			throw new FileReaderException("[ERROR] Something went wrong when trying to read file");
 		}
 	}
 
@@ -69,7 +72,6 @@ public class FileReader {
 	 * @param url String contenant l'URL du fichier souhaité
 	 * @return BufferedReader : Flux lisible ligne à ligne
 	 * @throws FileReaderException : Exception indiquant avec un message qu'une erreur s'est produite lors de l'ouverture du fichier
-
 	 */
 	private BufferedReader openFileAt(String url) throws FileReaderException {
 		try {
@@ -80,13 +82,28 @@ public class FileReader {
 			throw new FileReaderException("Error while loading file at '" + this.url + "'", e);
 		}
 	}
+	
+	/**
+	 * Méthode DEPRECATED (utilisant des TreeMap) permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
+	 * @param url URL du fichier désiré
+	 * @return HuffmannBean : Ensemble trié de noeuds associant : une String correspondant à une lettre, et un Integer (sa fréquence)
+	 * @version 1.0  AKA "Methode Romain"
+	 */
+	@Deprecated
+	public HuffmanBean oldProcessLetterFrequencyFrom(String url) {
+		this.url = url;
+		BufferedReader reader = openFileAt(url);
+		//Methode Romain, très bien écrite mais pas très rapide :
+		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
+		return new HuffmanBean(frequencyByLetter);
+	}
 
 	/**
 	 * Méthode permettant de récuperer les fréquences de chaque caractère à partir du flux de données
 	 * @param reader BufferedReader correspondant au flux de données provenant du fichier précédement ouvert
 	 * @return Une MAP<String,Integer>, chaque String correspond à une lettre, et chaque Integer associé à sa fréquence
 	 * @throws FileReaderException Exception avec message indiquant qu'une erreur s'est produite lors de la lecture du fichier
-
+	 * @version 1.0 AKA "Methode Romain"
 	 */
 	private Map<String,Integer> processEntireFileCountingFrequency(BufferedReader reader) throws FileReaderException {
 		Map<String,Integer> frequencyByLetter = new TreeMap<String,Integer>();
@@ -106,10 +123,17 @@ public class FileReader {
 	 * Méthode permettant de normaliser la String reçue (enlève tous les espaces et met toutes les lettres en minuscule)
 	 * @param lineToProcess String d'origine contenant éventuellement des caractères à normaliser
 	 * @return renvoie une String sans espaces et sans majuscules
-
 	 */
 	private String normalizeLine(String lineToProcess) {
-		//lineToProcess = lineToProcess.replaceAll("\\s+", ""); 
+		/* Je l'ai gardé, mais je trouve ça inutile !
+		 * Je t'en parle en cours pourquoi... Mais c'est toujours l'histoire des octets.
+		 * Et même pire, si tu dis que A = a, Ok, tu gagne en place, mais tu corrompts le fichier.
+		 * Tu perds des informations, tu gagne en compression, mais avec pertes.
+		 * Moi je serais pour, ne plus travailler avec des caractères mais des octets.
+		 * Moins de galère, le fichier reste le même, et on peut traiter des fichiers txt comme des mp3
+		 * Sans problème !
+		 */
+		lineToProcess = lineToProcess.replaceAll("\\s+", ""); 
 		return lineToProcess.toLowerCase();
 	}
 

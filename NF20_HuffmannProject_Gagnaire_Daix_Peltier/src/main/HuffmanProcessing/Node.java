@@ -26,7 +26,6 @@ public class Node implements Comparable<Node>{
 		this.leftNode = null;
 		this.rightNode = null;
 		this.isFinalLeaf = true;
-
 	}
 
 	/**
@@ -152,6 +151,7 @@ public class Node implements Comparable<Node>{
 	 * Méthode redéfinissant la façon dont sont comparés les noeuds
 	 * Trie d'abord sur la fréquence, et en cas d'égalité trie sur la lettre
 	 */
+	@Override
 	public int compareTo(Node other) {
 		if(this.getFrequency().equals(other.getFrequency())) {
 			return this.getLetter().compareTo(other.getLetter());

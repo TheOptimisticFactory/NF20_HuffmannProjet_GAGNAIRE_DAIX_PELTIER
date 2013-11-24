@@ -38,7 +38,6 @@ public class HuffmanBean {
 		}
 	}
 	
-	
 	/**
 	 * Méthode permettant de vérifier si l'algorithme est terminé
 	 * @return true s'il reste plus de 2 noeuds ou false, s'il n'en reste plus qu'un
@@ -90,8 +89,6 @@ public class HuffmanBean {
 			Integer mergedFrequency = frequencyOne + frequencyTwo;
 
 			insertNewNodeWithLeaves(mergedLetters, mergedFrequency, lowestEntry, nextLowestEntry);
-			//System.out.println("");
-			//System.out.println("[MERGING] " + letterOne + "(" + frequencyOne + ")" + " AND " + letterTwo + "(" + frequencyTwo + ")" + " => " + mergedLetters + "(" + mergedFrequency + ")"); 
 		}
 	}
 

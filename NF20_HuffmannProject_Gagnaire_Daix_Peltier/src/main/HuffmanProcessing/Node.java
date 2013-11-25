@@ -2,6 +2,8 @@ package main.HuffmanProcessing;
 
 import java.io.PrintStream;
 
+import fileCompressedManager.Dictionnary;
+
 /**
  * Classe correspondant à un noeud dans l'arbre de Huffman (chaque noeud peut contenir une lettre, une fréquence et un poids, ou simplement 1 à 2 sous-noeuds)
  * @version 0.2.0
@@ -17,6 +19,14 @@ public class Node implements Comparable<Node>{
 	private boolean encoding[];
 	private int encodingLength;
 
+
+	public boolean[] getEncoding() {
+		return encoding;
+	}
+	
+	public int getEncodingLength() {
+		return encodingLength;
+	}
 
 	/**
 	 * Constructeur d'un noeud correspondant à une lettre (avec fréquence, avec lettre, et sans sous-noeuds)
@@ -73,12 +83,12 @@ public class Node implements Comparable<Node>{
 	 * @param current : Nouvelle valeur à ajouter au tableau
 	 */
 	public void assignEncodage(boolean father[], int fatherLength, boolean current){
-		if(isFinalLeaf){
+		//if(isFinalLeaf){
 			for(int i = 0; i < fatherLength; i++)
 				this.encoding[i] = father[i];
 			this.encoding[fatherLength] = current;
 			this.encodingLength = fatherLength + 1;
-		}
+		//}
 		if(hasLeftChild()){
 			leftNode.assignEncodage(this.encoding, this.encodingLength, false);
 		}
@@ -110,6 +120,15 @@ public class Node implements Comparable<Node>{
 			stream.print("[RIGHT] ");
 			this.rightNode.displayNodeInfoWithDepth(stream,depth+1);
 		}
+	}
+	
+	public void addDictionnary(Dictionnary dec){
+		if(this.value != -1)
+			dec.setValue(this.getValue(), this.getEncodingLength(), this.getEncoding());
+		if(hasLeftChild())
+			this.leftNode.addDictionnary(dec);
+		if(hasRightChild())
+			this.rightNode.addDictionnary(dec);
 	}
 
 	/**

@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import fileCompressedManager.Dictionnary;
+
 /**
  * Classe correspondant à l'arborescence de l'arbre de Huffman (ensemble ordonnée de noeuds)
  * @version 0.2.0
@@ -139,6 +141,15 @@ public class HuffmanBean {
 			node.displayWeight(stream);
 			stream.println("");
 		}
+	}
+	
+	public Dictionnary getDictionnary(){
+		Dictionnary dec = new Dictionnary();
+		for(Node node : this.tree)
+		{
+			node.addDictionnary(dec);
+		}
+		return dec;
 	}
 	
 	/**

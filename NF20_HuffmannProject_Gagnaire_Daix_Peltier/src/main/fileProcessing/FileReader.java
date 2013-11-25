@@ -1,5 +1,6 @@
 package main.fileProcessing;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +21,16 @@ import main.HuffmanProcessing.HuffmanBean;
 public class FileReader {
 	private String url;
 
+	
+	public HuffmanBean proccessOctetFrequencyFrom(String url)
+	{
+		this.url = url;
+		BufferedInputStream file = this.openFile(url);
+		int tab[] = initializeArray(256);
+		processEntireFileOctetCountingFrequency(tab, file);
+		return new HuffmanBean(tab);
+	}
+	
 	/**
 	 * Méthode optimisée permettant de récuperer les fréquences de chaque caractère à partir de l'URL d'un fichier
 	 * @param url URL du fichier désiré
@@ -66,6 +77,25 @@ public class FileReader {
 			throw new FileReaderException("[ERROR] Something went wrong when trying to read file");
 		}
 	}
+	
+	/**
+	 * Methode permettant de récupérer la fréquence de chaque octet dans le fichier à partir d'un flux d'octets.
+	 * @param tab Tableau, chaque case correspond à un octet
+	 * @param reader :
+	 */
+	private void processEntireFileOctetCountingFrequency(int[] tab, BufferedInputStream reader)
+	{
+		int octet;
+		byte buffer[] = new byte[1024];
+		try {
+			while((octet=reader.read(buffer, 0, 1024))!=-1) {
+				for(int j = 0; j < octet; j++)
+				tab[buffer[j] + 128]++;
+			}
+		} catch (IOException e) {
+			throw new FileReaderException("[ERROR] Something went wrong when trying to read file");
+		}
+	}
 
 	/**
 	 * Méthode permettant de récupérer un flux lisible à partir de l'URL d'un fichier (gestion des erreurs)
@@ -78,6 +108,20 @@ public class FileReader {
 			InputStream ips = new FileInputStream(url);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			return new BufferedReader(ipsr);
+		} catch (FileNotFoundException e) {
+			throw new FileReaderException("Error while loading file at '" + this.url + "'", e);
+		}
+	}
+	
+	/**
+	 * Methode permettant d'ouvrir un fichier à partir d'un URL.
+	 * @param url
+	 * @return
+	 * @throws FileReaderException
+	 */
+	private BufferedInputStream openFile(String url) throws FileReaderException{
+		try{
+			return new BufferedInputStream(new FileInputStream(url));
 		} catch (FileNotFoundException e) {
 			throw new FileReaderException("Error while loading file at '" + this.url + "'", e);
 		}

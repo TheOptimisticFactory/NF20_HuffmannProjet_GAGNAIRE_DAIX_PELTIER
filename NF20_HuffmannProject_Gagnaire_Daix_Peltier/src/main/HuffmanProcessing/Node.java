@@ -11,36 +11,36 @@ public class Node implements Comparable<Node>{
 	private Node leftNode;
 	private Node rightNode;
 	private Integer frequency;
-	private final String letter;
 	private final Boolean isFinalLeaf;
+	private int value;
 	private String weight;
+	private boolean encoding[];
+	private int encodingLength;
+
 
 	/**
 	 * Constructeur d'un noeud correspondant à une lettre (avec fréquence, avec lettre, et sans sous-noeuds)
 	 * @param letter
 	 * @param frequency
 	 */
-	public Node(String letter, Integer frequency) {
-		this.letter = letter;
+	public Node(int value, int frequency) {
+		this.value = value;
 		this.frequency = frequency;
 		this.leftNode = null;
 		this.rightNode = null;
 		this.isFinalLeaf = true;
+		this.encoding = new boolean[24];
+		this.encodingLength = 0;
 	}
 
-	/**
-	 * Constructeur d'un noeud père correspondant à une lettre (avec fréquence, avec lettre, et sans sous-noeuds)
-	 * @param letter
-	 * @param frequency
-	 * @param leftNode
-	 * @param rigthNode
-	 */
-	public Node(String letter, Integer frequency, Node leftNode, Node rigthNode) {
-		this.letter = letter;
-		this.frequency = frequency;
-		this.leftNode = leftNode;
-		this.rightNode = rigthNode;
+	public Node(int mergedvalue, Integer mergedFrequency, Node lowestEntry, Node nextLowestEntry) {
+		this.value = mergedvalue;
+		this.frequency = mergedFrequency;
+		this.leftNode = lowestEntry;
+		this.rightNode = nextLowestEntry;
 		this.isFinalLeaf = false;
+		this.encoding = new boolean[24];
+		this.encodingLength = 0;
 	}
 
 	/**
@@ -65,6 +65,27 @@ public class Node implements Comparable<Node>{
 			rightNode.assignWeightToLetter(weight+"1");
 		}
 	}
+	
+	/**
+	 * Methode permettant d'assigner chaque lettre avec son encodage dans Huffman
+	 * @param father : Tableau de l'element parent.
+	 * @param fatherLength : Taille du tableau de l'element parent.
+	 * @param current : Nouvelle valeur à ajouter au tableau
+	 */
+	public void assignEncodage(boolean father[], int fatherLength, boolean current){
+		if(isFinalLeaf){
+			for(int i = 0; i < fatherLength; i++)
+				this.encoding[i] = father[i];
+			this.encoding[fatherLength] = current;
+			this.encodingLength = fatherLength + 1;
+		}
+		if(hasLeftChild()){
+			leftNode.assignEncodage(this.encoding, this.encodingLength, false);
+		}
+		if(hasRightChild()){
+			rightNode.assignEncodage(this.encoding, this.encodingLength, true);
+		}
+	}
 
 	/**
 	 * Méthode permettant d'afficher les données d'un noeud, et ceux des sous-noeuds associés (s'ils existent)
@@ -72,7 +93,7 @@ public class Node implements Comparable<Node>{
 	 * @param depth Numéro correspondant à la profondeur dans l'arbre (0 étant la racine)
 	 */
 	public void displayNodeInfoWithDepth(PrintStream stream, int depth) {
-		stream.print("[" + getLetter() + "] : " + getFrequency());
+		stream.print("[" + getValue() + "] : " + getFrequency());
 		if(hasLeftChild()) {
 			stream.println();
 			for(int i=0; i<=depth; i++) {
@@ -97,7 +118,7 @@ public class Node implements Comparable<Node>{
 	 */
 	public void displayWeight(PrintStream stream) {
 		if(isFinalLeaf) {
-			stream.println("Letter [" + getLetter() + "] weights : " + getWeight());
+			stream.println("Letter [" + getValue() + "] weights : " + getWeight());
 		}
 		if(hasLeftChild()) {
 			this.leftNode.displayWeight(stream);
@@ -111,8 +132,8 @@ public class Node implements Comparable<Node>{
 	 * Méthode permettant de récuperer la lettre associée au noeud
 	 * @return La lettre associée au noeud
 	 */
-	public String getLetter() {
-		return letter;
+	public int getValue() {
+		return this.value;
 	}
 
 	/**
@@ -154,7 +175,7 @@ public class Node implements Comparable<Node>{
 	@Override
 	public int compareTo(Node other) {
 		if(this.getFrequency().equals(other.getFrequency())) {
-			return this.getLetter().compareTo(other.getLetter());
+			return this.getValue() - other.getValue();
 		} else {
 			return this.getFrequency().compareTo(other.getFrequency());
 		}

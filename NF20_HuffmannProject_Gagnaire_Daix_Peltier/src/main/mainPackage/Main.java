@@ -1,7 +1,11 @@
 package main.mainPackage;
 
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+import fileCompressedManager.Dictionnary;
+import fileCompressedManager.FileCompressedReader;
+import fileCompressedManager.FileCompressedWritter;
 import main.HuffmanProcessing.Displayer;
 import main.HuffmanProcessing.HuffmanBean;
 import main.HuffmanProcessing.HuffmanEncoder;
@@ -23,7 +27,7 @@ public class Main {
 		String url2 = "src/main/ressources/ex1.txt";
 		String url3 = "src/main/ressources/ex2.txt";
 		
-		encodeFileMeasuringPerformance(reader,url3);
+		encodeFileMeasuringPerformance(reader,url1);
 		//encodeFileDisplayingDebugInfo(reader, display, output, url3);
 	}
 
@@ -37,6 +41,18 @@ public class Main {
 		HuffmanBean res = reader.proccessOctetFrequencyFrom(url);
 		HuffmanEncoder encoder = new HuffmanEncoder();
 		encoder.encode(res);
+		displayMeasureOfElapsedTimeInSeconds(startTime);
+		Dictionnary dico = res.getDictionnary();
+		FileCompressedWritter w = new FileCompressedWritter(dico, url);
+		try {
+			w.saveCompressedFile("src/main/ressources/compressed.bin");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		displayMeasureOfElapsedTimeInSeconds(startTime);
+		FileCompressedReader r = new FileCompressedReader("src/main/ressources/compressed.bin");
+		r.unCompress("src/main/ressources/result.txt");
 		displayMeasureOfElapsedTimeInSeconds(startTime);
 	}
 	

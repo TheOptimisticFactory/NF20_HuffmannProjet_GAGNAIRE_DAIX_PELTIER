@@ -34,7 +34,7 @@ public class Main {
 	 */
 	private static void encodeFileMeasuringPerformance(FileReader reader, String url) {
 		long startTime = startTimer();
-		HuffmanBean res = reader.processLetterFrequencyFrom(url);
+		HuffmanBean res = reader.proccessOctetFrequencyFrom(url);
 		HuffmanEncoder encoder = new HuffmanEncoder();
 		encoder.encode(res);
 		displayMeasureOfElapsedTimeInSeconds(startTime);

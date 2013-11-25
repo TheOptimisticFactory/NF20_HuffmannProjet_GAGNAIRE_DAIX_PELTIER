@@ -18,10 +18,11 @@ public class HuffmanBean {
 	 * Constructeur, prend une MAP<String, Integer> et la transforme en une arborescence de noeuds 
 	 * @param originalValues : Map<String, Integer> contenant toutes les lettres et leurs fréquences associées
 	 */
+	@Deprecated
 	public HuffmanBean(Map<String, Integer> originalValues) {
 		this.tree = new TreeSet<Node>();
 		for(Entry<String, Integer> entry : originalValues.entrySet()) {
-			this.tree.add(new Node(entry.getKey(),entry.getValue()));
+			this.tree.add(new Node(0,entry.getValue()));
 		}
 	}
 	
@@ -31,10 +32,10 @@ public class HuffmanBean {
 	 */
 	public HuffmanBean(int[] originalValues){
 		this.tree = new TreeSet<Node>();
-		for(int i =0; i < 65536; i++)
+		for(int i =0; i < 256; i++)
 		{
 			if(originalValues[i]!=0)
-			this.tree.add(new Node(""+((char)i), originalValues[i]));
+			this.tree.add(new Node(i, originalValues[i]));
 		}
 	}
 	
@@ -74,21 +75,20 @@ public class HuffmanBean {
 	 */
 	private void mergeLowestTwoValues(Iterator<Node> it, Node lowestEntry) {
 		Node nextLowestEntry;
-		String letterOne, letterTwo;
+		int letterOne, letterTwo;
 		Integer frequencyOne, frequencyTwo;
 
-		letterOne = lowestEntry.getLetter();
+		letterOne = lowestEntry.getValue();
 		frequencyOne = lowestEntry.getFrequency();
 
 		if(it.hasNext()) {
 			nextLowestEntry = it.next();
-			letterTwo = nextLowestEntry.getLetter();
+			letterTwo = nextLowestEntry.getValue();
 			frequencyTwo = nextLowestEntry.getFrequency();
 
-			String mergedLetters = letterOne + "." + letterTwo;
 			Integer mergedFrequency = frequencyOne + frequencyTwo;
 
-			insertNewNodeWithLeaves(mergedLetters, mergedFrequency, lowestEntry, nextLowestEntry);
+			insertNewNodeWithLeaves(-1, mergedFrequency, lowestEntry, nextLowestEntry);
 		}
 	}
 
@@ -99,8 +99,8 @@ public class HuffmanBean {
 	 * @param lowestEntry Noeud correpondant à la fréquence la plus faible
 	 * @param nextLowestEntry Noeud correspondant à la fréquence (suivante) la plus faible
 	 */
-	private void insertNewNodeWithLeaves(String mergedLetters, Integer mergedFrequency, Node lowestEntry, Node nextLowestEntry) {
-		this.tree.add(new Node(mergedLetters,mergedFrequency,lowestEntry,nextLowestEntry));
+	private void insertNewNodeWithLeaves(int Mergedvalue, Integer mergedFrequency, Node lowestEntry, Node nextLowestEntry) {
+		this.tree.add(new Node(Mergedvalue,mergedFrequency,lowestEntry,nextLowestEntry));
 		this.tree.remove(lowestEntry);
 		this.tree.remove(nextLowestEntry);
 	}
@@ -111,7 +111,11 @@ public class HuffmanBean {
 	public void assignWeightToAllLetters() {
 		for(Node node : this.tree) {
 			String initialWeight = "";
+			boolean father[] = new boolean[0];
+			int fatherLength = 0;
+			boolean current = false;
 			node.assignWeightToLetter(initialWeight);
+			node.assignEncodage(father, fatherLength, current);
 		}
 	}
 	

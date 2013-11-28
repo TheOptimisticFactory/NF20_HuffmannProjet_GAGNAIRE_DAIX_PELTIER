@@ -9,8 +9,9 @@ public class Dictionnary {
 	}
 	public void setValue(int octet, int size, boolean encodage[])
 	{
+		size--;
 		for(int i = 0; i < size; i++)
-		this.values[octet][i] = encodage[i];
+		this.values[octet][i] = encodage[i + 1];
 		this.valuesSize[octet] = size;
 		
 	}

@@ -26,9 +26,10 @@ public class Main {
 		String url1 = "src/main/ressources/file.txt";
 		String url2 = "src/main/ressources/ex1.txt";
 		String url3 = "src/main/ressources/ex2.txt";
+		String url4 = "src/main/ressources/suivis_sport.ods";
 		
-		encodeFileMeasuringPerformance(reader,url1);
-		//encodeFileDisplayingDebugInfo(reader, display, output, url3);
+		encodeFileMeasuringPerformance(reader,url3);
+		//encodeFileDisplayingDebugInfo(reader, display, output, url2);
 	}
 
 	/**

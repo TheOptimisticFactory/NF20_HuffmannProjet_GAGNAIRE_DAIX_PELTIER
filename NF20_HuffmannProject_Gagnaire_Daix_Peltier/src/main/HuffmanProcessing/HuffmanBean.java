@@ -82,12 +82,12 @@ public class HuffmanBean {
 
 		letterOne = lowestEntry.getValue();
 		frequencyOne = lowestEntry.getFrequency();
+		
 
 		if(it.hasNext()) {
 			nextLowestEntry = it.next();
 			letterTwo = nextLowestEntry.getValue();
 			frequencyTwo = nextLowestEntry.getFrequency();
-
 			Integer mergedFrequency = frequencyOne + frequencyTwo;
 
 			insertNewNodeWithLeaves(-1, mergedFrequency, lowestEntry, nextLowestEntry);

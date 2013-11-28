@@ -89,8 +89,9 @@ public class FileReader {
 		byte buffer[] = new byte[1024];
 		try {
 			while((octet=reader.read(buffer, 0, 1024))!=-1) {
-				for(int j = 0; j < octet; j++)
+				for(int j = 0; j < octet; j++){
 				tab[buffer[j] + 128]++;
+				}
 			}
 		} catch (IOException e) {
 			throw new FileReaderException("[ERROR] Something went wrong when trying to read file");

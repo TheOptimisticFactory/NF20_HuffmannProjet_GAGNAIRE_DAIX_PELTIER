@@ -58,7 +58,7 @@ public class TreeDictionnary {
 	}
 	
 	public int getValue(boolean bit){
-		if(this.getRight() ==null){
+		if(this.getRight() ==null || this.getLeft() == null){
 			this.current = null;
 			return this.value;
 		}
@@ -67,9 +67,15 @@ public class TreeDictionnary {
 			this.current = this.getLeft();
 		else
 			this.current = this.getRight();
-			return this.current.getValue();
+			int val = this.current.getValue();
+			if(val!=-1)
+				this.current = null;
+			return val;
 		}else{
-			return this.current.getValue(bit);
+			int val = this.current.getValue(bit);
+			if(val!=-1)
+				this.current = null;
+			return val;
 		}
 	}
 	

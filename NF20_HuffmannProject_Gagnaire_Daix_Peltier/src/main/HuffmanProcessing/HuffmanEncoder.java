@@ -26,6 +26,7 @@ public class HuffmanEncoder {
 	public void encodeWithDebugInfo(HuffmanBean res) {
 		while(res.stillHasNodesToProcess()) {
 			res.processingOneMoreStep();
+			System.out.println("step");
 			res.displayTree(System.out);
 		}
 		res.assignWeightToAllLetters();

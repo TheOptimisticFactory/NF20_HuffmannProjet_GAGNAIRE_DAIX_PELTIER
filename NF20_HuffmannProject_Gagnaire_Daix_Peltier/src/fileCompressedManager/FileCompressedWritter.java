@@ -54,10 +54,10 @@ public class FileCompressedWritter {
 		}
 	}
 	private void WriteByte(int octet) throws IOException{
-		this.bitWritted += 8;
-		this.currentByte = this.currentByte << (8 - this.dec) | octet >> (this.dec);
-		this.fileWriter.write(this.currentByte);
-		this.currentByte = octet & 255 >> (8 - this.dec);
+		for(int j = 0; j < 8;j++)
+		{
+			this.WriteBit(octet >> (7-j) & 1);
+		}
 	}
 	private void closeWritter() throws IOException{
 		if(this.dec > 0)
@@ -75,15 +75,12 @@ public class FileCompressedWritter {
 			{
 				if(this.dico.getSize(octet)>0)
 				{
-					System.out.print("in_File>"+octet+">"+this.dico.getSize(octet)+">");
-					this.WriteByte(octet);
+					this.WriteByte(octet-128);
 					size = this.dico.getSize(octet);
 					this.WriteByte(size);
 					for(int bit = 0; bit < size; bit++){
 							this.WriteBit((this.dico.getBit(octet, bit)?1:0));
-							System.out.print(this.dico.getBit(octet,bit)?1:0);
 					}
-					System.out.println("");
 							// TODO Auto-generated catch block
 				}
 			}

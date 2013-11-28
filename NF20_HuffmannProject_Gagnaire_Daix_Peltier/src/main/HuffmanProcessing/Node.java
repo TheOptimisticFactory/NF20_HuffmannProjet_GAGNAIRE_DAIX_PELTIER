@@ -151,7 +151,7 @@ public class Node implements Comparable<Node>{
 	 * Méthode permettant de récuperer la lettre associée au noeud
 	 * @return La lettre associée au noeud
 	 */
-	public int getValue() {
+	public Integer getValue() {
 		return this.value;
 	}
 
@@ -194,7 +194,10 @@ public class Node implements Comparable<Node>{
 	@Override
 	public int compareTo(Node other) {
 		if(this.getFrequency().equals(other.getFrequency())) {
-			return this.getValue() - other.getValue();
+			if(this.getValue()!=-1||other.getValue()!=-1)
+				return this.getValue().compareTo(other.getValue());
+			else
+				return this.leftNode.compareTo(other.leftNode);
 		} else {
 			return this.getFrequency().compareTo(other.getFrequency());
 		}

@@ -76,7 +76,7 @@ public class FileReaderTest {
 			Node expectedNode = iteratorFromExpectedResults.next();	
 			assertEquals(expectedNode.getValue(),currentNode.getValue());
 			assertEquals(expectedNode.getFrequency(),currentNode.getFrequency());
-			displayValuesForKeyFrom(""+(char)currentNode.getValue(),currentNode.getFrequency());
+			displayValuesForKeyFrom(""+currentNode.getValue(),currentNode.getFrequency());
 		}
 	}
 	

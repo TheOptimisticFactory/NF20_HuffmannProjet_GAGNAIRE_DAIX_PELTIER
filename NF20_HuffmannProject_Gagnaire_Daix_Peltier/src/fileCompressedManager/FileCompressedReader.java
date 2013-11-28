@@ -46,13 +46,16 @@ public class FileCompressedReader {
 	public void unCompress(String url){
 		try {
 			this.fileWriter = new BufferedOutputStream(new FileOutputStream(url));
+			buildDictionnary();
+			readContent();
+			this.fileWriter.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		buildDictionnary();
-		System.out.println(this.dic);
-		readContent();
 	}
 	private void buildDictionnary(){
 		this.dic = new TreeDictionnary();
@@ -61,12 +64,9 @@ public class FileCompressedReader {
 			do{
 				int length = readByte();
 				boolean bit[] = new boolean[length];
-				System.out.print("read_=>"+octet+">"+length+">");
 				for(int i = 0; i < length; i++){
 					bit[i] = readBit()==1;
-					System.out.print(bit[i]?1:0);
 				}
-				System.out.println();
 				this.dic.addValue(octet, bit, length);
 				octet = readByte();
 			}while(octet != 0);
@@ -82,8 +82,9 @@ public class FileCompressedReader {
 			while((bit = readBit())!=-1)
 			{
 				value = this.dic.getValue(bit==1);
-				if(value != -1)
+				if(value != -1){
 					this.fileWriter.write(value);
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

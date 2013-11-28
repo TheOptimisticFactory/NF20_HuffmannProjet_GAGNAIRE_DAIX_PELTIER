@@ -99,6 +99,6 @@ public class Main {
 	private static void displayMeasureOfElapsedTimeInSeconds(long startTime) {
 		PrintStream output = System.out;
 		double elapsedTime = (System.nanoTime() - startTime)/1000000000.0;
-		output.println("Duration = " + elapsedTime + "secondes");
+		output.println("Duration = " + elapsedTime + " secondes");
 	}
 }

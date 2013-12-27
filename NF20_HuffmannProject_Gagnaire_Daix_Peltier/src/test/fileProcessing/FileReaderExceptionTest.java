@@ -1,6 +1,7 @@
 package test.fileProcessing;
 
-import main.fileProcessing.FileReaderException;
+import main.file.reader.FileReaderException;
+
 import org.junit.Test;
 
 public class FileReaderExceptionTest {

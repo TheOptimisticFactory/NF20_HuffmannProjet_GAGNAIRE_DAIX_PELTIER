@@ -62,24 +62,38 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<configuration>
-					<executable>java</executable>
-					<arguments>
-						<argument>-classpath</argument>
-						<classpath />
-						<argument>com.google.caliper.Runner</argument>
-						<argument>${benchmark}</argument>
-						<argument>${parameters}</argument>
-					</arguments>
-				</configuration>
-			</plugin>
+
 		</plugins>
 	</build>
 
 
+	<profiles>
+		<profile>
+			<id>benchmarks</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>caliper</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<classpathScope>test</classpathScope>
+									<mainClass>com.google.caliper.runner.CaliperMain</mainClass>
+									<commandlineArgs>main.benchmark.DecoderBenchmark</commandlineArgs>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

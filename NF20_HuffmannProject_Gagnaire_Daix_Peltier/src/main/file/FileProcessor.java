@@ -40,12 +40,20 @@ public class FileProcessor {
 		if(this.timeDisplayOn) {
 			this.startTime = System.nanoTime();
 			HuffmanBean res = this.reader.proccessOctetFrequencyFrom(url);
+			double elapsedTime = (System.nanoTime() - startTime)/1000000000.0;
+			double relativeTime = System.nanoTime();
+			System.out.println("lecture du fichier = " + elapsedTime + "secondes");
 			this.encoder.encode(res);
+			elapsedTime = (System.nanoTime() - relativeTime)/1000000000.0;
+			relativeTime = System.nanoTime();
+			System.out.println("arbre de huffman = " + elapsedTime + "secondes");
 			Dictionnary dico = res.getDictionnary();
 			CompressedFileWritter w = new CompressedFileWritter(dico, url);
 			w.saveCompressedFile(urlToCompressedFile);
+			elapsedTime = (System.nanoTime() - relativeTime)/1000000000.0;
+			System.out.println("sauvegarde du fichier compressé = " + elapsedTime + "secondes");
 			if(this.timeDisplayOn) {
-				double elapsedTime = (System.nanoTime() - startTime)/1000000000.0;
+				elapsedTime = (System.nanoTime() - startTime)/1000000000.0;
 				System.out.println("[ENCODING WITH SAVING] Duration = " + elapsedTime + " secondes");
 			}
 		} else {

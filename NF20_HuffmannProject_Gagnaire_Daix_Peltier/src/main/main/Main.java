@@ -19,27 +19,21 @@ import main.file.reader.FileReader;
 @SuppressWarnings("unused") //temporaire
 public class Main {
 	public static void main (String[] args) {
-		String url1 = "src/main/ressources/emptyFile.txt";
-		String url2 = "src/main/ressources/simpleFile.txt";
-		String url3 = "src/main/ressources/mediumFile.txt";
-		String url4 = "src/main/ressources/shitLoadOfTextFile.txt";
-		String url5 = "src/main/ressources/suivis_sport.ods";
+		String url1 = "src/main/ressources/simpleFile.txt"; // instance "officiel" 1
+		String url2 = "src/main/ressources/mediumFile.txt"; // instance "officiel" 2
 		String urlToCompressedFile = "src/main/ressources/compressed.bin";
 		try {
 			//Encodage de tous les fichiers --sert pour le benchmark de décodage de Caliper
-			encodeFile(url1, "src/main/ressources/emptyFile.bin");
 			encodeFile(url1, "src/main/ressources/simpleFile.bin");
 			encodeFile(url1, "src/main/ressources/mediumFile.bin");
-			encodeFile(url1, "src/main/ressources/shitLoadOfTextFile.bin");
-			encodeFile(url1, "src/main/ressources/suivis_sport.bin");
 			//Objectif : performance (affichage et calcul de temps désactivés)
-			encodeFileWithoutSaving(url4);
-			encodeAndThenDecondeFile(url4,urlToCompressedFile);
+			//encodeFileWithoutSaving(url1);
+			//encodeAndThenDecondeFile(url1,urlToCompressedFile);
 			//Objectif : affichage/debug (calcul de temps activé)
-			System.out.println("----- Encoding only - Display -----");
-			encodeFileWithoutSavingWithDebugDisplay(url4);
+			//System.out.println("----- Encoding only - Display -----");
+			//encodeFileWithoutSavingWithDebugDisplay(url1);
 			System.out.println("----- Encoding & Decoding - Display -----");
-			encodeAndThenDecondeFileWithDebugDisplay(url4,urlToCompressedFile);
+			encodeAndThenDecondeFileWithDebugDisplay(url1,urlToCompressedFile);
 		} catch (Exception e) {
 			System.err.println("========================================");
 			System.err.println("[ERROR] An error occured during runtime");

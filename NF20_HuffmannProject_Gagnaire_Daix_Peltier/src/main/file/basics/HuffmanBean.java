@@ -1,5 +1,8 @@
 package main.file.basics;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -41,6 +44,25 @@ public class HuffmanBean {
 	}
 	
 	/* ========================================= LOGIQUE METIER ========================================= */
+	
+	/**
+	 * Sauvegarde l'arbre de Huffman sur le disque dur sous forme d'un fichier XML
+	 */
+	public void save(String filename){
+		File ff=new File(filename); // définir l'arborescence
+		try {
+			ff.createNewFile();
+			FileWriter ffw=new FileWriter(ff);
+			ffw.write("<huffmanBean>");
+			for(Node node : this.tree) {
+				ffw.write(node.xmlNodeInfoWithDepth());
+			}
+			ffw.write("</huffmanBean>");
+			ffw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * M�thode permettant de progression d'une �tape dans la r�alisation du codage de huffmann

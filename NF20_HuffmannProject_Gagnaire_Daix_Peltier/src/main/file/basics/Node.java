@@ -120,6 +120,19 @@ public class Node implements Comparable<Node> {
 		}
 	}
 	
+	public String xmlNodeInfoWithDepth()
+	{
+		if(getValue() != -1){
+			return ""+getValue();
+		}
+		else
+		{
+			String ret = "<gauche>"+this.leftNode.xmlNodeInfoWithDepth()+"</gauche>";
+			ret += "<droite>"+this.rightNode.xmlNodeInfoWithDepth()+"</droite>";
+			return ret;
+		}
+	}
+	
 	public void addDictionnary(Dictionnary dec){
 		if(this.value != -1)
 			dec.setValue(this.getValue(), this.getEncodingLength(), this.getEncoding());

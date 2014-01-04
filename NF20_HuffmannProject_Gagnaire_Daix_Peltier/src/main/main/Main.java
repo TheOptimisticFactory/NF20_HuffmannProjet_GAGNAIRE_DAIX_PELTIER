@@ -1,5 +1,6 @@
 package main.main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
@@ -25,7 +26,8 @@ public class Main {
 		try {
 			//Encodage de tous les fichiers --sert pour le benchmark de décodage de Caliper
 			encodeFile(url1, "src/main/ressources/simpleFile.bin");
-			encodeFile(url1, "src/main/ressources/mediumFile.bin");
+			encodeFile(url2, "src/main/ressources/mediumFile.bin");
+			System.out.println("taux de compression : " +compressionRate(url2, "src/main/ressources/mediumFile.bin") +"%");
 			//Objectif : performance (affichage et calcul de temps désactivés)
 			//encodeFileWithoutSaving(url1);
 			//encodeAndThenDecondeFile(url1,urlToCompressedFile);
@@ -44,6 +46,19 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Renvoie le taux de compression
+	 * @param fileUncompressed : Fichier non compressé
+	 * @param fileCompressed : Fichier compressé
+	 * @return Taux de compression
+	 */
+	public static float compressionRate(String fileUncompressed, String fileCompressed)
+	{
+		long lg_uncompressed = new File(fileUncompressed).length();
+		long lg_compressed = new File(fileCompressed).length();
+		return lg_compressed * 100 / lg_uncompressed ;
+	}
+	
 	public static void encodeFile(String url, String urlToCompressedFile) {
 		FileProcessor fileProcessor = new FileProcessor(false);
 		fileProcessor.encodeFileAt(url, urlToCompressedFile);

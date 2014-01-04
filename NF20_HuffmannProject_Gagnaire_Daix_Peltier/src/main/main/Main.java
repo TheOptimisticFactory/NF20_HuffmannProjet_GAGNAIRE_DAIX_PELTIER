@@ -27,21 +27,22 @@ public class Main {
 		String url5 = "src/main/ressources/OverExtraBigFile.txt"; 
 		String url6 = "src/main/ressources/UltraOverExtraBigFile.txt"; 
 		String url7 = "src/main/ressources/ShitFile.txt"; 
-
+		String url8 = "src/main/ressources/test_compression3.txt";
+		
 		String urlToCompressedFile = "src/main/ressources/compressed.bin";
+		
+		// Quel fichier utilise t-on?
+		String url = url8;
+		
 		try {
-			//Encodage de tous les fichiers --sert pour le benchmark de décodage de Caliper
-			encodeFile(url1, "src/main/ressources/simpleFile.bin");
-			encodeFile(url7, "src/main/ressources/mediumFile.bin");
-			System.out.println("taux de compression : " +compressionRate(url7, "src/main/ressources/mediumFile.bin") +"%");
-			//Objectif : performance (affichage et calcul de temps désactivés)
-			//encodeFileWithoutSaving(url1);
-			//encodeAndThenDecondeFile(url1,urlToCompressedFile);
-			//Objectif : affichage/debug (calcul de temps activé)
-			//System.out.println("----- Encoding only - Display -----");
-			//encodeFileWithoutSavingWithDebugDisplay(url1);
 			System.out.println("----- Encoding & Decoding - Display -----");
-			encodeAndThenDecondeFileWithDebugDisplay(url1,urlToCompressedFile);
+			encodeAndThenDecondeFileWithDebugDisplay(url,urlToCompressedFile);
+			System.out.println("Taux de compression : " +compressionRate(url, urlToCompressedFile) +"%");
+			System.out.println("----- Informations -----");
+			System.out.println("Arbre de Huffman : src/main/ressources/arbreHuffman.xml");
+			System.out.println("Fichier compressé : "+urlToCompressedFile);
+			System.out.println("Fichier décompressé: src/main/ressources/result.txt");
+			
 		} catch (Exception e) {
 			System.err.println("========================================");
 			System.err.println("[ERROR] An error occured during runtime");

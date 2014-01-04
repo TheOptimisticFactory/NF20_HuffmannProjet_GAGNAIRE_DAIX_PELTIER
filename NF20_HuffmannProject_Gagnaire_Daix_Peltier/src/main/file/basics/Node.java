@@ -120,15 +120,15 @@ public class Node implements Comparable<Node> {
 		}
 	}
 	
-	public String xmlNodeInfoWithDepth()
+	public String xmlNodeInfoWithDepth(String bits)
 	{
 		if(getValue() != -1){
 			return ""+getValue();
 		}
 		else
 		{
-			String ret = "<gauche>"+this.leftNode.xmlNodeInfoWithDepth()+"</gauche>";
-			ret += "<droite>"+this.rightNode.xmlNodeInfoWithDepth()+"</droite>";
+			String ret = "<gauche bits=\""+bits+"0\">"+this.leftNode.xmlNodeInfoWithDepth(bits + "0")+"</gauche>";
+			ret += "<droite bits=\""+bits+"1\">"+this.rightNode.xmlNodeInfoWithDepth(bits + "1")+"</droite>";
 			return ret;
 		}
 	}

@@ -55,7 +55,7 @@ public class HuffmanBean {
 			FileWriter ffw=new FileWriter(ff);
 			ffw.write("<huffmanBean>");
 			for(Node node : this.tree) {
-				ffw.write(node.xmlNodeInfoWithDepth());
+				ffw.write(node.xmlNodeInfoWithDepth(""));
 			}
 			ffw.write("</huffmanBean>");
 			ffw.close();

@@ -26,14 +26,14 @@ public class Main {
 		String url4 = "src/main/ressources/ExtraBigFile.txt"; 
 		String url5 = "src/main/ressources/OverExtraBigFile.txt"; 
 		String url6 = "src/main/ressources/UltraOverExtraBigFile.txt"; 
-		String url7 = "src/main/ressources/shitFile.txt"; 
+		String url7 = "src/main/ressources/ShitFile.txt"; 
 
 		String urlToCompressedFile = "src/main/ressources/compressed.bin";
 		try {
 			//Encodage de tous les fichiers --sert pour le benchmark de décodage de Caliper
 			encodeFile(url1, "src/main/ressources/simpleFile.bin");
-			encodeFile(url2, "src/main/ressources/mediumFile.bin");
-			System.out.println("taux de compression : " +compressionRate(url2, "src/main/ressources/mediumFile.bin") +"%");
+			encodeFile(url7, "src/main/ressources/mediumFile.bin");
+			System.out.println("taux de compression : " +compressionRate(url7, "src/main/ressources/mediumFile.bin") +"%");
 			//Objectif : performance (affichage et calcul de temps désactivés)
 			//encodeFileWithoutSaving(url1);
 			//encodeAndThenDecondeFile(url1,urlToCompressedFile);

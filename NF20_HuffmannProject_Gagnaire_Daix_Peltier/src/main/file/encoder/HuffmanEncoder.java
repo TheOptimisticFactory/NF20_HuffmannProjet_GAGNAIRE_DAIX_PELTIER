@@ -18,7 +18,7 @@ public class HuffmanEncoder {
 			res.processingOneMoreStep();
 		}
 		res.assignWeightToAllLetters();
-		res.save("arbreHuffman.xml");
+		res.save("src/main/ressources/arbreHuffman.xml");
 	}
 	
 	/**

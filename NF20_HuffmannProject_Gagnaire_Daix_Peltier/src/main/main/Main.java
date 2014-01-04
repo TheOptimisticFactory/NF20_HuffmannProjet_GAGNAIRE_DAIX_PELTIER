@@ -22,6 +22,12 @@ public class Main {
 	public static void main (String[] args) {
 		String url1 = "src/main/ressources/simpleFile.txt"; // instance "officiel" 1
 		String url2 = "src/main/ressources/mediumFile.txt"; // instance "officiel" 2
+		String url3 = "src/main/ressources/bigFile.txt"; 
+		String url4 = "src/main/ressources/ExtraBigFile.txt"; 
+		String url5 = "src/main/ressources/OverExtraBigFile.txt"; 
+		String url6 = "src/main/ressources/UltraOverExtraBigFile.txt"; 
+		String url7 = "src/main/ressources/shitFile.txt"; 
+
 		String urlToCompressedFile = "src/main/ressources/compressed.bin";
 		try {
 			//Encodage de tous les fichiers --sert pour le benchmark de décodage de Caliper

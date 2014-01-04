@@ -19,17 +19,7 @@ public class HuffmanBean {
 	
 	/* ========================================= CONSTRUCTEUR ========================================= */
 	
-	/**
-	 * Constructeur, prend une MAP<String, Integer> et la transforme en une arborescence de noeuds 
-	 * @param originalValues : Map<String, Integer> contenant toutes les lettres et leurs fr�quences associ�es
-	 */
-	public HuffmanBean(Map<String, Integer> originalValues) {
-		this.tree = new TreeSet<Node>();
-		for(Entry<String, Integer> entry : originalValues.entrySet()) {
-			this.tree.add(new Node(0,entry.getValue()));
-		}
-	}
-	
+		
 	/**
 	 * Constructeur, prend un tableau d'entier, et la transforme en une arborescence de noeuds
 	 * @param originalValues : La cl� => Valeur de l'octet, la taille, sa fr�quence. Le tableau fait forcement 256 de taille.

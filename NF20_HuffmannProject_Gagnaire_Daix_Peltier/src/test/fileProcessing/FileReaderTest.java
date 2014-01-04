@@ -44,7 +44,6 @@ public class FileReaderTest {
 		this.expectedResultsFromTestFile.put("d", 2);
 		this.expectedResultsFromTestFile.put("e", 1);
 		this.expectedResultsFromTestFile.put("f", 3);
-		this.expectedResultBeanFromTestFile = new HuffmanBean(expectedResultsFromTestFile);
 	}
 	
 	@Test(expected=FileReaderException.class)

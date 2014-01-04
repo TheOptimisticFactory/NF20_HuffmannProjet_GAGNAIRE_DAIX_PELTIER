@@ -122,20 +122,6 @@ public class FileReader {
 		}
 	}
 	
-	/**
-	 * M�thode DEPRECATED (utilisant des TreeMap) permettant de r�cuperer les fr�quences de chaque caract�re � partir de l'URL d'un fichier
-	 * @param url URL du fichier d�sir�
-	 * @return HuffmannBean : Ensemble tri� de noeuds associant : une String correspondant � une lettre, et un Integer (sa fr�quence)
-	 * @version 1.0  AKA "Methode Romain"
-	 */
-	@Deprecated
-	public HuffmanBean oldProcessLetterFrequencyFrom(String url) {
-		this.url = url;
-		BufferedReader reader = openFileAt(url);
-		//Methode Romain, tr�s bien �crite mais pas tr�s rapide :
-		Map<String,Integer> frequencyByLetter = processEntireFileCountingFrequency(reader);
-		return new HuffmanBean(frequencyByLetter);
-	}
 
 	/**
 	 * M�thode permettant de r�cuperer les fr�quences de chaque caract�re � partir du flux de donn�es
